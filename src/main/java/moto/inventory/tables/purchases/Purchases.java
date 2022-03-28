@@ -11,6 +11,7 @@ public class Purchases {
     private Integer id;
     private Integer amount;
     private Integer motorId;
+    private Integer userId;
 
 
     public Purchases() {
@@ -18,15 +19,18 @@ public class Purchases {
 
     public Purchases(Integer id,
                      Integer amount,
-                     Integer motorId) {
+                     Integer motorId,
+                     Integer userId) {
         this.id = id;
         this.amount = amount;
         this.motorId = motorId;
+        this.userId = userId;
     }
 
-    public Purchases(Integer amount, Integer motorId) {
+    public Purchases(Integer amount, Integer motorId, Integer userId) {
         this.amount = amount;
         this.motorId = motorId;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -52,12 +56,20 @@ public class Purchases {
     public void setMotorId(Integer motorId) {
         this.motorId = motorId;
     }
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {
         return "Purchases{" +
                 "id=" + id +
                 ", amount=" + amount +
+                ", userId=" + userId +
                 ", motorId=" + motorId +
                 '}';
     }

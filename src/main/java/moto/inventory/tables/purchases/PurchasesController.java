@@ -50,8 +50,9 @@ public class PurchasesController {
     public void updatePurchase(
             @PathVariable("purchaseId") Integer purchaseId,
             @RequestParam(required = false) Integer amount,
+            @RequestParam(required = false) Integer userId,
             @RequestParam(required = false) Integer motorId){
-        purchasesService.updatePurchase(purchaseId, amount, motorId);
+        purchasesService.updatePurchase(purchaseId, amount, userId, motorId);
     }
 }
 

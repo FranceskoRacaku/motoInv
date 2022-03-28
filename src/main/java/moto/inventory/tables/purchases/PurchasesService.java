@@ -52,7 +52,7 @@ public class PurchasesService {
 
 
     @Transactional
-    public void updatePurchase(Integer purchaseId, Integer amount, Integer motorId) {
+    public void updatePurchase(Integer purchaseId, Integer amount, Integer userId, Integer motorId) {
         Purchases purchases = purchasesRepository.findById(purchaseId)
                 .orElseThrow(() -> new IllegalStateException(
                         "Purchase with id " + purchaseId + " does no exist!!")
