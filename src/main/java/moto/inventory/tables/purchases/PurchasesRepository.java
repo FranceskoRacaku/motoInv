@@ -8,7 +8,7 @@ import java.util.List;
 public interface PurchasesRepository
         extends JpaRepository<Purchases, Integer> {
 
-    @Query("SELECT e FROM Purchases e where e.motorId = ?1")
-    List<Purchases> findAllById(Integer motorId);
+    @Query("SELECT e FROM Purchases e where e.id = ?1")
+    List<Purchases> findAllById(Integer id);
 
 }
