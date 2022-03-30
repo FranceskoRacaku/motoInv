@@ -2,6 +2,8 @@ package moto.inventory.tables.purchases;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,13 +48,12 @@ public class PurchasesController {
         purchasesService.deletePurchase(purchaseId);
     }
 
-    @PutMapping(path = "{purchaseId}")
-    public void updatePurchase(
-            @PathVariable("purchaseId") Integer purchaseId,
-            @RequestParam(required = false) Integer amount,
-            @RequestParam(required = false) Integer userId,
-            @RequestParam(required = false) Integer motorId){
-        purchasesService.updatePurchase(purchaseId, amount, userId, motorId);
+    @PatchMapping("{purchaseId}")
+    public ResponseEntity<Purchases> updatePurchase(
+            @PathVariable(value = "purchaseId") Integer purchaseId,
+            @RequestBody Purchases purchase){
+        return new ResponseEntity<Purchases>(purchasesService.updatePurchase(purchase, purchaseId), HttpStatus.OK);
+
     }
 }
 

@@ -1,8 +1,11 @@
 package moto.inventory.tables.sellsPlace;
 
+import moto.inventory.tables.motoInventory.Motors;
 import moto.inventory.tables.sellsPlace.Sells;
 import moto.inventory.tables.sellsPlace.SellsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,13 +50,12 @@ public class SellsController {
         sellsService.deleteSell(sellId);
     }
 
-    @PutMapping(path = "{sellId}")
-    public void updateSell(
-            @PathVariable("sellId") Integer sellId,
-            @RequestParam(required = false) Integer amountSold,
-            @RequestParam(required = false) Integer userId,
-            @RequestParam(required = false) Integer motorId){
-        sellsService.updateSell(sellId, amountSold, userId, motorId);
+    @PatchMapping("{sellId}")
+    public ResponseEntity<Sells> updateSell(
+            @PathVariable(value = "sellId") Integer sellId,
+            @RequestBody Sells sell){
+        return new ResponseEntity<Sells>(sellsService.updateSell(sell, sellId), HttpStatus.OK);
+
     }
 }
 

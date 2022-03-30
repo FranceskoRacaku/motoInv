@@ -1,6 +1,8 @@
 package moto.inventory.tables.motoInventory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,13 +43,11 @@ public class MotorsController {
         motorsService.deleteMotor(motorId);
     }
 
-    @PutMapping(path = "{motorId}")
-    public void updateMotor(
-            @PathVariable("motorId") Integer motorId,
-            @RequestParam(required = false) String vin,
-            @RequestParam(required = false) String make,
-            @RequestParam(required = false) String type){
-        motorsService.updateMotor(motorId, vin, make, type);
+    @PatchMapping("{motorId}")
+    public ResponseEntity<Motors> updateMotor(
+            @PathVariable(value = "motorId") Integer motorId,
+            @RequestBody Motors motor){
+        return new ResponseEntity<Motors>(motorsService.updateMotor(motor, motorId), HttpStatus.OK);
 
     }
 

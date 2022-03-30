@@ -1,8 +1,10 @@
 package moto.inventory.tables.sellsPlace;
 
 
+import moto.inventory.tables.purchases.Purchases;
 import moto.inventory.tables.sellsPlace.Sells;
 import moto.inventory.tables.sellsPlace.SellsRepository;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,19 +56,17 @@ public class SellsService {
 
 
     @Transactional
-    public void updateSell(Integer sellId, Integer amountSold, Integer userId, Integer motorId) {
-        Sells sells = sellsRepository.findById(sellId)
-                .orElseThrow(() -> new IllegalStateException(
-                        "Sell with id " + sellId + " does no exist!!")
-                );
+    public Sells updateSell(Sells sell, Integer sellId) {
 
+        Sells existingSell = sellsRepository.findById(sellId).orElseThrow(
+                () -> new ResourceNotFoundException("Purchase Id" + sellId));
 
-        if (amountSold != null &&
-                amountSold > 0 &&
-                !Objects.equals(sells.getAmountSold(), amountSold)) {
-            sells.setAmountSold(amountSold);
-        }
+        existingSell.setAmountSold(sell.getAmountSold());
+        existingSell.setMotorId(sell.getMotorId());
+        existingSell.setUserId(sell.getUserId());
 
+        sellsRepository.save(existingSell);
+        return existingSell;
     }
 
 }

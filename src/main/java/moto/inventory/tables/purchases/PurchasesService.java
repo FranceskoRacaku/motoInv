@@ -1,6 +1,8 @@
 package moto.inventory.tables.purchases;
 
 
+import moto.inventory.tables.motoInventory.Motors;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,19 +54,17 @@ public class PurchasesService {
 
 
     @Transactional
-    public void updatePurchase(Integer purchaseId, Integer amount, Integer userId, Integer motorId) {
-        Purchases purchases = purchasesRepository.findById(purchaseId)
-                .orElseThrow(() -> new IllegalStateException(
-                        "Purchase with id " + purchaseId + " does no exist!!")
-                );
+    public Purchases updatePurchase(Purchases purchase, Integer purchaseId) {
 
+        Purchases existingPurchase = purchasesRepository.findById(purchaseId).orElseThrow(
+                () -> new ResourceNotFoundException("Purchase Id" + purchaseId));
 
-        if (amount != null &&
-                amount > 0 &&
-                !Objects.equals(purchases.getAmount(), amount)) {
-            purchases.setAmount(amount);
-        }
+        existingPurchase.setAmount(purchase.getAmount());
+        existingPurchase.setMotorId(purchase.getMotorId());
+        existingPurchase.setUserId(purchase.getUserId());
 
+        purchasesRepository.save(existingPurchase);
+        return existingPurchase;
     }
 
 }

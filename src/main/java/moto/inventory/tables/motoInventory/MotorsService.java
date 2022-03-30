@@ -1,5 +1,6 @@
 package moto.inventory.tables.motoInventory;
 
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,34 +50,16 @@ public class MotorsService {
     }
 
     @Transactional
-    public void updateMotor(Integer motorId, String vin, String make, String type) {
-        Motors motors = motorsRepository.findById(motorId)
-                .orElseThrow(() -> new IllegalStateException(
-                        "motor with id " + motorId + " does no exist!!")
-                );
+    public Motors updateMotor(Motors motor, Integer motorId) {
 
+        Motors existingMotor = motorsRepository.findById(motorId).orElseThrow(
+                () -> new ResourceNotFoundException("Motor Id" + motorId));
 
-        if (vin != null &&
-                vin.length() > 0 &&
-                !Objects.equals(motors.getVin(), vin)) {
-            Optional<Motors> motorsOptional = motorsRepository
-                    .findMotorsByVin(vin);
-            if (motorsOptional.isPresent()) {
-                throw new IllegalStateException("VIN Taken");
-            }
-            motors.setVin(vin);
-        }
+        existingMotor.setVin(motor.getVin());
+        existingMotor.setMake(motor.getMake());
+        existingMotor.setType(motor.getType());
 
-        if (make != null &&
-                make.length() > 0 &&
-                !Objects.equals(motors.getMake(), make)) {
-            motors.setMake(make);
-        }
-
-        if (type != null &&
-                type.length() > 0 &&
-                !Objects.equals(motors.getType(), type)) {
-            motors.setType(type);
-        }
+        motorsRepository.save(existingMotor);
+        return existingMotor;
     }
 }
