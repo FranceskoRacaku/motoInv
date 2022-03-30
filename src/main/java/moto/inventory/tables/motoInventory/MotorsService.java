@@ -67,16 +67,8 @@ public class MotorsService {
             motors.setVin(vin);
         }
 
-        if (make != null &&
-                make.length() > 0 &&
-                !Objects.equals(motors.getMake(), make)) {
-            motors.setMake(make);
-        }
+        motors.setMake(make);
+        motors.setType(type);
 
-        if (type != null &&
-                type.length() > 0 &&
-                !Objects.equals(motors.getType(), type)) {
-            motors.setType(type);
-        }
     }
 }
