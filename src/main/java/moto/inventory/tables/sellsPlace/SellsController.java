@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://motoang.herokuapp.com")
 @RequestMapping(path = "sells")
 
 public class SellsController {
